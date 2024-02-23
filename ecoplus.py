@@ -43,10 +43,10 @@ async def on_message(message):
 
   content = message.content
 
-  if content == "!hello":
+  if content == "?hello":
     await message.channel.send('henlo')
     return
-  if content == "!pinguncon":
+  if content == "?pinguncon":
     #fcalva's server
     if message.guild.id == 750665878072328242:
       await message.channel.send("<@499533339468759052>")
@@ -54,9 +54,10 @@ async def on_message(message):
       await message.channel.send("<@755081785393676328>")
     else:
       await message.channel.send("pas dispo ici")
-  if content == "!pingrand":
+  if content == "?pingrand":
     choice = random.choice(globals()["gmembers"][str(message.guild.id)])
     await message.channel.send("<@"+str(choice.id)+">")
-
+  if content == "?help":
+    await message.channel.send("Eco+, un bot Eco plus pour faire des conneries\n ?pinguncon : ping le con local\n ?pingrand : ping un membre aléatoire du serveur")
 
 client.run(token)
