@@ -26,6 +26,36 @@ guilds = []
 
 globals()["gmembers"] = {}
 
+def pinguncon(message):
+  #fcalva's server
+  if message.guild.id == 750665878072328242:
+    await message.channel.send("<@499533339468759052>")
+  elif message.guild.id in [1008485562304450610, 1157767629738618941]:
+    await message.channel.send("<@755081785393676328>")
+  else:
+    await message.channel.send("pas dispo ici")
+
+def pingrand(message):
+  choice = random.choice(globals()["gmembers"][str(message.guild.id)])
+  await message.channel.send("<@"+str(choice.id)+">")
+
+def roulette(message):
+  roll = random.random()
+  if roll < 0.16666666666:
+    tdelt = datetime.timedelta(seconds=5)
+    try:
+      await message.author.timeout(tdelt, reason="Petit test")
+    except:
+      await message.channel.send("Une erreur s'est produite ! (Je ne peux probablement pas vous timeout)")
+  else:
+    await message.channel.send("Ouf ! Il n'y avait pas de cartouche dans la chambre...")
+
+def ecohelp():
+  await message.channel.send("Eco+, un bot Eco plus pour faire des conneries\n"\
+                              "?pinguncon : ping le con local\n"\
+                              "?pingrand : ping un membre aléatoire du serveur\n"
+                              "?roulette : Prennez une chance sur six de vous faire timeout")
+
 @client.event
 async def on_ready():
   print(f'We have logged in as {client.user}')
@@ -49,31 +79,12 @@ async def on_message(message):
     await message.channel.send('henlo')
     return
   if content == "?pinguncon":
-    #fcalva's server
-    if message.guild.id == 750665878072328242:
-      await message.channel.send("<@499533339468759052>")
-    elif message.guild.id in [1008485562304450610, 1157767629738618941]:
-      await message.channel.send("<@755081785393676328>")
-    else:
-      await message.channel.send("pas dispo ici")
+    pinguncon(message)
   if content == "?pingrand":
-    choice = random.choice(globals()["gmembers"][str(message.guild.id)])
-    await message.channel.send("<@"+str(choice.id)+">")
+    pingrand(message)
   if content == "?roulette":
-    roll = random.random()
-    if roll < 0.16666666666:
-      tdelt = datetime.timedelta(seconds=5)
-      try:
-        await message.author.timeout(tdelt, reason="Petit test")
-      except:
-        await message.channel.send("Une erreur s'est produite ! (Je ne peux probablement pas vous timeout)")
-    else:
-      await message.channel.send("Ouf ! Il n'y avait pas de cartouche dans la chambre...")
-
+    roulette(message)
   if content == "?help":
-    await message.channel.send("Eco+, un bot Eco plus pour faire des conneries\n"\
-                              "?pinguncon : ping le con local\n"\
-                              "?pingrand : ping un membre aléatoire du serveur\n"
-                              "?roulette : Prennez une chance sur six de vous faire timeout")
+    ecohelp(message)
 
 client.run(token)
