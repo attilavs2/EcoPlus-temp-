@@ -20,17 +20,21 @@ intents.members = True
 
 client = discord.Client(intents=intents, activity=discord.Game(name='En train de niquer des mères'))
 
-gmembers = []
+guilds = []
+
+globals()["gmembers"] = {}
 
 @client.event
 async def on_ready():
   print(f'We have logged in as {client.user}')
-  gid = 750665878072328242
-  guild = client.get_guild(gid)
-
-  async for member in guild.fetch_members(limit=150):
-    gmembers.append(member)
-    print(member)
+  async for guild in client.fetch_guilds(limit=150):
+    print(str(guild.id)+":")
+    guilds.append(guild)
+    sid = str(guild.id)
+    globals()["gmembers"] |= {sid:[]}
+    async for member in guild.fetch_members(limit=150):
+      globals()["gmembers"][sid].append(member)
+      print("  "+str(member))
 
 @client.event
 async def on_message(message):
@@ -43,9 +47,15 @@ async def on_message(message):
     await message.channel.send('henlo')
     return
   if content == "!pinguncon":
-    await message.channel.send("<@499533339468759052>")
+    #fcalva's server
+    if message.guild.id == 750665878072328242:
+      await message.channel.send("<@499533339468759052>")
+    elif message.guild.id in [1008485562304450610, 1157767629738618941]:
+      await message.channel.send("<@755081785393676328>")
+    else:
+      await message.channel.send("pas dispo ici")
   if content == "!pingrand":
-    choice = random.choice(gmembers)
+    choice = random.choice(globals()["gmembers"][str(message.guild.id)])
     await message.channel.send("<@"+str(choice.id)+">")
 
 
