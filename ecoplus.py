@@ -1,6 +1,7 @@
 import sys
 import random
 import discord
+import datetime
 
 import db
 
@@ -17,6 +18,7 @@ db.credentials = secrets[1]
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
+intents.moderation = True
 
 client = discord.Client(intents=intents, activity=discord.Game(name='En train de niquer des mères'))
 
@@ -57,7 +59,21 @@ async def on_message(message):
   if content == "?pingrand":
     choice = random.choice(globals()["gmembers"][str(message.guild.id)])
     await message.channel.send("<@"+str(choice.id)+">")
+  if content == "?roulette":
+    roll = random.random()
+    if roll < 0.16666666666:
+      tdelt = datetime.timedelta(seconds=5)
+      try:
+        await message.author.timeout(tdelt, reason="Petit test")
+      except:
+        await message.channel.send("Une erreur s'est produite ! (Je ne peux probablement pas vous timeout)")
+    else:
+      await message.channel.send("Ouf ! Il n'y avait pas de cartouche dans la chambre...")
+
   if content == "?help":
-    await message.channel.send("Eco+, un bot Eco plus pour faire des conneries\n ?pinguncon : ping le con local\n ?pingrand : ping un membre aléatoire du serveur")
+    await message.channel.send("Eco+, un bot Eco plus pour faire des conneries\n"\
+                              "?pinguncon : ping le con local\n"\
+                              "?pingrand : ping un membre aléatoire du serveur\n"
+                              "?roulette : Prennez une chance sur six de vous faire timeout")
 
 client.run(token)
