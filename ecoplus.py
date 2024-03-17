@@ -50,7 +50,7 @@ async def roulette(message):
   else:
     await message.channel.send("Ouf ! Il n'y avait pas de cartouche dans la chambre...")
 
-async def ecohelp():
+async def ecohelp(message):
   await message.channel.send("Eco+, un bot Eco plus pour faire des conneries\n"\
                               "?pinguncon : ping le con local\n"\
                               "?pingrand : ping un membre aléatoire du serveur\n"
@@ -85,6 +85,6 @@ async def on_message(message):
   if content == "?roulette":
     await roulette(message)
   if content == "?help":
-    await ecohelp(message)
+    await ecohelp(message )
 
 client.run(token)
