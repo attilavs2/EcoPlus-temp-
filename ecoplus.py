@@ -26,7 +26,7 @@ guilds = []
 
 globals()["gmembers"] = {}
 
-def pinguncon(message):
+async def pinguncon(message):
   #fcalva's server
   if message.guild.id == 750665878072328242:
     await message.channel.send("<@499533339468759052>")
@@ -35,22 +35,22 @@ def pinguncon(message):
   else:
     await message.channel.send("pas dispo ici")
 
-def pingrand(message):
+async def pingrand(message):
   choice = random.choice(globals()["gmembers"][str(message.guild.id)])
   await message.channel.send("<@"+str(choice.id)+">")
 
-def roulette(message):
+async def roulette(message):
   roll = random.random()
   if roll < 0.16666666666:
-    tdelt = datetime.timedelta(seconds=5)
+    tdelt = datetime.timedelta(minutes=5)
     try:
-      await message.author.timeout(tdelt, reason="Petit test")
+      await message.author.timeout(tdelt, reason="Vous avez perdu à la roulette...")
     except:
       await message.channel.send("Une erreur s'est produite ! (Je ne peux probablement pas vous timeout)")
   else:
     await message.channel.send("Ouf ! Il n'y avait pas de cartouche dans la chambre...")
 
-def ecohelp():
+async def ecohelp():
   await message.channel.send("Eco+, un bot Eco plus pour faire des conneries\n"\
                               "?pinguncon : ping le con local\n"\
                               "?pingrand : ping un membre aléatoire du serveur\n"
@@ -79,12 +79,12 @@ async def on_message(message):
     await message.channel.send('henlo')
     return
   if content == "?pinguncon":
-    pinguncon(message)
+    await pinguncon(message)
   if content == "?pingrand":
-    pingrand(message)
+    await pingrand(message)
   if content == "?roulette":
-    roulette(message)
+    await roulette(message)
   if content == "?help":
-    ecohelp(message)
+    await ecohelp(message)
 
 client.run(token)
