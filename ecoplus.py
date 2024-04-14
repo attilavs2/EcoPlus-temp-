@@ -50,12 +50,23 @@ async def roulette(message):
   else:
     await message.channel.send("Ouf ! Il n'y avait pas de cartouche dans la chambre...")
 
+async def spam(message):
+  if not message.author.guild_permissions.ban_members:
+    return
+  pars = message.content.split(" ")
+  msg = ""
+  for i in range(2, len(pars)):
+    msg+=pars[i]
+  for i in range(0, int(pars[1])):
+    await message.channel.send(msg)
+
 async def ecohelp(message):
   await message.channel.send("Eco+, un bot Eco plus pour faire des conneries\n"\
                               "?pinguncon : ping le con local\n"\
-                              "?pingrand : ping un membre aléatoire du serveur\n"
-                              "?roulette : Prennez une chance sur six de vous faire timeout")
-
+                              "?pingrand : ping un membre aléatoire du serveur\n"\
+                              "?roulette : Prennez une chance sur six de vous faire timeout\n"\
+                              "?spam <n> <message> : Si l'utilisateur a des permissions de\n"\
+                              "                      modérateur, envoie n fois <message>")
 @client.event
 async def on_ready():
   print(f'We have logged in as {client.user}')
@@ -85,6 +96,7 @@ async def on_message(message):
   if content == "?roulette":
     await roulette(message)
   if content == "?help":
-    await ecohelp(message )
-
+    await ecohelp(message)
+  if content.split(" ")[0] == "?spam":
+    await spam(message)
 client.run(token)
