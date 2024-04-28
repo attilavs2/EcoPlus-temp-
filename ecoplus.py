@@ -56,7 +56,7 @@ async def spam(message):
   pars = message.content.split(" ")
   msg = ""
   for i in range(2, len(pars)):
-    msg+=pars[i]
+    msg+=" "+pars[i]
   for i in range(0, int(pars[1])):
     await message.channel.send(msg)
 
